@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Нячанг на двоих — 11 дней</title>
+<style>
+  :root {
+    --sea: #0891b2;
+    --sea-light: #67e8f9;
+    --sea-dark: #0e7490;
+    --sand: #fef3c7;
+    --coral: #fb7185;
+    --coral-dark: #e11d48;
+    --palm: #16a34a;
+    --palm-light: #86efac;
+    --sunset: #f97316;
+    --cream: #fffbeb;
+    --text: #1c1917;
+    --text-muted: #78716c;
+    --white: #ffffff;
+    --shadow: 0 4px 24px rgba(8,145,178,0.12);
+    --shadow-lg: 0 8px 40px rgba(8,145,178,0.18);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    background: linear-gradient(160deg, #0c4a6e 0%, #0e7490 40%, #0891b2 70%, #22d3ee 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  /* Animated waves */
+  .wave-layer {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 200px;
+  }
+  .wave-layer svg { width: 100%; height: 100%; }
+
+  /* Sun */
+  .sun {
+    position: absolute;
+    top: 60px; right: 12%;
+    width: 110px; height: 110px;
+  }
+  .sun-core {
+    cx: 55; cy: 55; r: 38;
+    fill: #fde68a;
+    filter: drop-shadow(0 0 18px #fbbf24);
+  }
+  .sun-ray { stroke: #fde68a; stroke-width: 3; stroke-linecap: round; opacity: .7; }
+
+  /* Palms */
+  .palms-left, .palms-right {
+    position: absolute;
+    bottom: 155px;
+    width: 140px; height: 220px;
+  }
+  .palms-left { left: 0; }
+  .palms-right { right: 0; transform: scaleX(-1); }
+
+  .hero-content { position: relative; z-index: 10; color: white; }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: 100px;
+    padding: .35rem 1.1rem;
+    font-size: .82rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    backdrop-filter: blur(6px);
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    font-weight: 800;
+    line-height: 1.15;
+    text-shadow: 0 2px 20px rgba(0,0,0,.25);
+    margin-bottom: .6rem;
+  }
+  .hero h1 span { color: #fde68a; }
+  .hero-sub {
+    font-size: 1.15rem;
+    opacity: .88;
+    margin-bottom: 2.2rem;
+    max-width: 520px;
+  }
+  .hero-pills { display: flex; gap: .7rem; flex-wrap: wrap; justify-content: center; }
+  .pill {
+    background: rgba(255,255,255,.2);
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 100px;
+    padding: .4rem 1rem;
+    font-size: .88rem;
+    backdrop-filter: blur(4px);
+  }
+
+  /* Birds */
+  .birds { position: absolute; top: 18%; left: 22%; opacity: .6; }
+
+  /* ─── MAIN CONTENT ─── */
+  .container { max-width: 960px; margin: 0 auto; padding: 3rem 1.5rem; }
+
+  /* Info strip */
+  .info-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 1rem;
+    margin-bottom: 3.5rem;
+  }
+  .info-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.3rem 1.2rem;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+  }
+  .info-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+  .ic-blue  { background: #e0f2fe; }
+  .ic-green { background: #dcfce7; }
+  .ic-amber { background: #fef3c7; }
+  .ic-rose  { background: #ffe4e6; }
+  .info-label { font-size: .75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .08em; }
+  .info-value { font-weight: 700; font-size: .98rem; color: var(--text); }
+
+  /* Section heading */
+  .section-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(90deg, var(--sea-light), transparent);
+    border-radius: 2px;
+  }
+
+  /* ─── DAY CARDS ─── */
+  .days { display: flex; flex-direction: column; gap: 2rem; }
+
+  .day-card {
+    background: white;
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    transition: box-shadow .25s;
+  }
+  .day-card:hover { box-shadow: var(--shadow-lg); }
+
+  @media (max-width: 700px) {
+    .day-card { grid-template-columns: 1fr; }
+  }
+
+  .day-illustration {
+    position: relative;
+    min-height: 220px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .day-illustration svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+  .day-number-badge {
+    position: absolute;
+    top: 16px; left: 16px;
+    background: rgba(0,0,0,.35);
+    backdrop-filter: blur(6px);
+    color: white;
+    border-radius: 10px;
+    padding: .25rem .7rem;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    z-index: 5;
+  }
+
+  .day-body { padding: 1.6rem; }
+  .day-date {
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--sea);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin-bottom: .3rem;
+  }
+  .day-title { font-size: 1.3rem; font-weight: 800; margin-bottom: .8rem; line-height: 1.25; }
+
+  .schedule { list-style: none; display: flex; flex-direction: column; gap: .55rem; margin-bottom: 1rem; }
+  .schedule li { display: flex; align-items: flex-start; gap: .65rem; font-size: .92rem; }
+  .stime {
+    font-weight: 700;
+    color: var(--sea-dark);
+    font-size: .78rem;
+    white-space: nowrap;
+    padding-top: .15rem;
+    min-width: 46px;
+  }
+  .sdot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-top: .45rem;
+    flex-shrink: 0;
+  }
+  .sdesc { color: #44403c; }
+
+  .tip-box {
+    background: var(--sand);
+    border-left: 3px solid var(--sunset);
+    border-radius: 0 10px 10px 0;
+    padding: .65rem 1rem;
+    font-size: .84rem;
+    color: #78350f;
+    margin-top: .8rem;
+  }
+  .tip-box strong { color: #92400e; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .9rem; }
+  .tag {
+    font-size: .73rem;
+    font-weight: 600;
+    padding: .22rem .7rem;
+    border-radius: 100px;
+    letter-spacing: .04em;
+  }
+  .tag-sea    { background: #e0f2fe; color: #0369a1; }
+  .tag-nature { background: #dcfce7; color: #15803d; }
+  .tag-food   { background: #fef9c3; color: #854d0e; }
+  .tag-culture{ background: #f3e8ff; color: #7e22ce; }
+  .tag-spa    { background: #ffe4e6; color: #be123c; }
+  .tag-relax  { background: #f0fdf4; color: #166534; }
+
+  /* ─── FOOD SECTION ─── */
+  .food-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+  }
+  .food-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: transform .2s;
+  }
+  .food-card:hover { transform: translateY(-3px); }
+  .food-img {
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+  }
+  .food-info { padding: .9rem 1rem; }
+  .food-name { font-weight: 700; font-size: .95rem; }
+  .food-desc { font-size: .8rem; color: var(--text-muted); margin-top: .2rem; }
+
+  /* ─── TIPS ─── */
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+  }
+  .tips-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.3rem;
+    box-shadow: var(--shadow);
+  }
+  .tips-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: .6rem; display: flex; align-items: center; gap: .5rem; }
+  .tips-card p, .tips-card li { font-size: .86rem; color: #44403c; }
+  .tips-card ul { padding-left: 1.1rem; }
+  .tips-card li { margin-bottom: .25rem; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: linear-gradient(135deg, #0c4a6e, #0e7490);
+    color: white;
+    text-align: center;
+    padding: 3rem 2rem;
+    margin-top: 4rem;
+  }
+  footer h3 { font-size: 1.5rem; margin-bottom: .5rem; }
+  footer p { opacity: .75; font-size: .9rem; }
+
+  /* Colors per day */
+  .d1  { background: linear-gradient(160deg,#0c4a6e,#0891b2); }
+  .d2  { background: linear-gradient(160deg,#14532d,#16a34a); }
+  .d3  { background: linear-gradient(160deg,#7c3aed,#a855f7); }
+  .d4  { background: linear-gradient(160deg,#0369a1,#38bdf8); }
+  .d5  { background: linear-gradient(160deg,#0f766e,#2dd4bf); }
+  .d6  { background: linear-gradient(160deg,#9d174d,#fb7185); }
+  .d7  { background: linear-gradient(160deg,#166534,#4ade80); }
+  .d8  { background: linear-gradient(160deg,#1e40af,#60a5fa); }
+  .d9  { background: linear-gradient(160deg,#7c2d12,#fb923c); }
+  .d10 { background: linear-gradient(160deg,#854d0e,#fbbf24); }
+  .d11 { background: linear-gradient(160deg,#be123c,#f43f5e); }
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <!-- Sun -->
+  <svg class="sun" viewBox="0 0 110 110">
+    <circle class="sun-core" cx="55" cy="55" r="34" fill="#fde68a" filter="url(#glow)"/>
+    <defs><filter id="glow"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    <g stroke="#fde68a" stroke-width="3" stroke-linecap="round" opacity=".65">
+      <line x1="55" y1="4"  x2="55" y2="14"/>
+      <line x1="55" y1="96" x2="55" y2="106"/>
+      <line x1="4"  y1="55" x2="14" y2="55"/>
+      <line x1="96" y1="55" x2="106" y2="55"/>
+      <line x1="20" y1="20" x2="27" y2="27"/>
+      <line x1="83" y1="83" x2="90" y2="90"/>
+      <line x1="90" y1="20" x2="83" y2="27"/>
+      <line x1="27" y1="83" x2="20" y2="90"/>
+    </g>
+  </svg>
+
+  <!-- Left palm -->
+  <svg class="palms-left" viewBox="0 0 140 220">
+    <rect x="62" y="80" width="14" height="140" rx="7" fill="#15803d"/>
+    <ellipse cx="69" cy="82" rx="42" ry="18" fill="#16a34a" transform="rotate(-20,69,82)"/>
+    <ellipse cx="69" cy="75" rx="38" ry="15" fill="#22c55e" transform="rotate(15,69,75)"/>
+    <ellipse cx="69" cy="72" rx="35" ry="14" fill="#16a34a" transform="rotate(-35,69,72)"/>
+    <ellipse cx="69" cy="68" rx="32" ry="13" fill="#4ade80" transform="rotate(5,69,68)"/>
+    <ellipse cx="69" cy="65" rx="30" ry="12" fill="#16a34a" transform="rotate(-50,69,65)"/>
+  </svg>
+
+  <!-- Right palm -->
+  <svg class="palms-right" viewBox="0 0 140 220">
+    <rect x="62" y="80" width="14" height="140" rx="7" fill="#15803d"/>
+    <ellipse cx="69" cy="82" rx="42" ry="18" fill="#16a34a" transform="rotate(-20,69,82)"/>
+    <ellipse cx="69" cy="75" rx="38" ry="15" fill="#22c55e" transform="rotate(15,69,75)"/>
+    <ellipse cx="69" cy="72" rx="35" ry="14" fill="#16a34a" transform="rotate(-35,69,72)"/>
+    <ellipse cx="69" cy="68" rx="32" ry="13" fill="#4ade80" transform="rotate(5,69,68)"/>
+    <ellipse cx="69" cy="65" rx="30" ry="12" fill="#16a34a" transform="rotate(-50,69,65)"/>
+  </svg>
+
+  <!-- Birds -->
+  <svg class="birds" width="80" height="30" viewBox="0 0 80 30">
+    <path d="M0 15 Q8 8 16 15 Q24 22 32 15" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M35 8 Q43 1 51 8 Q59 15 67 8" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M55 22 Q60 17 65 22 Q70 27 75 22" fill="none" stroke="white" stroke-width="1.4" stroke-linecap="round"/>
+  </svg>
+
+  <!-- Wave layers -->
+  <div class="wave-layer">
+    <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
+      <path fill="rgba(255,255,255,0.08)" d="M0,80 C360,160 720,0 1080,80 C1260,120 1350,60 1440,80 L1440,200 L0,200 Z"/>
+      <path fill="rgba(255,255,255,0.06)" d="M0,120 C400,60 800,180 1200,100 C1320,80 1380,130 1440,120 L1440,200 L0,200 Z"/>
+      <path fill="rgba(255,255,255,0.9)" d="M0,160 C300,140 600,180 900,155 C1100,138 1280,172 1440,160 L1440,200 L0,200 Z"/>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badge">Путешествие вдвоём · Вьетнам 2025</div>
+    <h1>Нячанг —<br><span>11 дней рая</span></h1>
+    <p class="hero-sub">Лазурные острова, грязевые ванны, вкуснейшая кухня и бесконечное лето. Вылет 13 июля.</p>
+    <div class="hero-pills">
+      <span class="pill">✈️ 13 июля</span>
+      <span class="pill">🌴 11 дней</span>
+      <span class="pill">👫 На двоих</span>
+      <span class="pill">🌊 Нячанг, Вьетнам</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MAIN ═══ -->
+<main class="container">
+
+  <!-- Info strip -->
+  <div class="info-strip">
+    <div class="info-card">
+      <div class="info-icon ic-blue">✈️</div>
+      <div>
+        <div class="info-label">Вылет</div>
+        <div class="info-value">13 июля 2025</div>
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon ic-amber">🌡️</div>
+      <div>
+        <div class="info-label">Температура</div>
+        <div class="info-value">+28…+33°C</div>
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon ic-green">🌊</div>
+      <div>
+        <div class="info-label">Море</div>
+        <div class="info-value">+28°C, штиль</div>
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon ic-rose">💱</div>
+      <div>
+        <div class="info-label">Валюта</div>
+        <div class="info-value">VND / $1≈25 000₫</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Days -->
+  <h2 class="section-title">📅 Программа по дням</h2>
+  <div class="days">
+
+    <!-- DAY 1 -->
+    <div class="day-card">
+      <div class="day-illustration d1">
+        <span class="day-number-badge">ДЕНЬ 1</span>
+        <svg viewBox="0 0 260 240" xmlns="http://www.w3.org/2000/svg">
+          <!-- Sky gradient -->
+          <defs>
+            <linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0c4a6e"/><stop offset="100%" stop-color="#0891b2"/></linearGradient>
+            <linearGradient id="sea1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0891b2"/><stop offset="100%" stop-color="#0e7490"/></linearGradient>
+          </defs>
+          <rect width="260" height="240" fill="url(#sky1)"/>
+          <!-- Airplane -->
+          <g transform="translate(80,55) rotate(-10)">
+            <path d="M0,8 L50,4 L55,8 L50,12 Z" fill="white" opacity=".9"/>
+            <path d="M20,4 L35,-4 L38,0 L25,8 Z" fill="white" opacity=".85"/>
+            <path d="M30,12 L42,18 L40,12 Z" fill="white" opacity=".85"/>
+          </g>
+          <!-- Trail -->
+          <path d="M85,68 Q100,65 135,62" stroke="white" stroke-width="1.5" fill="none" opacity=".4" stroke-dasharray="4,3"/>
+          <!-- Moon/stars -->
+          <circle cx="200" cy="35" r="16" fill="#fef3c7" opacity=".8"/>
+          <circle cx="210" cy="30" r="12" fill="#0c4a6e"/>
+          <circle cx="50" cy="25" r="2" fill="white" opacity=".7"/>
+          <circle cx="170" cy="20" r="1.5" fill="white" opacity=".6"/>
+          <circle cx="230" cy="55" r="1.5" fill="white" opacity=".5"/>
+          <!-- Sea -->
+          <rect x="0" y="160" width="260" height="80" fill="url(#sea1)"/>
+          <path d="M0,165 Q32,158 65,165 Q97,172 130,165 Q162,158 195,165 Q228,172 260,165" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="2"/>
+          <!-- Hotel building -->
+          <rect x="100" y="105" width="70" height="60" rx="3" fill="#164e63"/>
+          <rect x="110" y="115" width="12" height="14" rx="2" fill="#67e8f9" opacity=".6"/>
+          <rect x="128" y="115" width="12" height="14" rx="2" fill="#67e8f9" opacity=".5"/>
+          <rect x="146" y="115" width="12" height="14" rx="2" fill="#67e8f9" opacity=".7"/>
+          <rect x="110" y="135" width="12" height="14" rx="2" fill="#67e8f9" opacity=".4"/>
+          <rect x="128" y="135" width="12" height="14" rx="2" fill="#67e8f9" opacity=".6"/>
+          <rect x="146" y="135" width="12" height="14" rx="2" fill="#67e8f9" opacity=".5"/>
+          <!-- Sign -->
+          <rect x="115" y="97" width="40" height="10" rx="3" fill="#fde68a" opacity=".8"/>
+          <text x="135" y="105" font-size="5.5" fill="#92400e" text-anchor="middle" font-weight="bold">HOTEL</text>
+          <!-- Palm trees -->
+          <rect x="72" y="130" width="7" height="40" rx="3" fill="#15803d"/>
+          <ellipse cx="75" cy="132" rx="20" ry="9" fill="#16a34a" transform="rotate(-15,75,132)"/>
+          <ellipse cx="75" cy="128" rx="17" ry="8" fill="#22c55e" transform="rotate(20,75,128)"/>
+        </svg>
+      </div>
+      <div class="day-body">
+        <div class="day-date">13 июля · воскресенье</div>
+        <div class="day-title">Прилёт и первый вечер у моря</div>
+        <ul class="schedule">
+          <li>
+            <span class="stime">день</span>
+            <span class="sdot" style="background:#0891b2"></span>
+            <span class="sdesc">Перелёт из Москвы (~9–10 ч), прилёт в аэропорт Камрань. Трансфер в отель (~35 мин)</span>
+          </li>
+          <li>
+            <span class="stime">вечер</span>
+            <span class="sdot" style="background:#16a34a"></span>
+            <span class="sdesc">Заселение, освежиться, первая прогулка по набережной Чан Фу</span>
+          </li>
+          <li>
+            <span class="stime">19:00</span>
+            <span class="sdot" style="background:#fb7185"></span>
+            <span class="sdesc">Ужин в ресторане Lanterns — вьетнамская кухня, живая музыка</span>
+          </li>
+          <li>
+            <span class="stime">21:00</span>
+            <span class="sdot" style="background:#a855f7"></span>
+            <span class="sdesc">Коктейль с видом на бухту в баре Sailing Club</span>
+          </li>
+        </ul>
+        <div class="tip-box"><strong>Совет:</strong> Закажите трансфер заранее — от Камрани до центра ~500 000₫ (~$20). В аэропорту работают обменники.</div>
+        <div class="tags"><span class="tag tag-sea">🌊 Море</span><span class="tag tag-food">🍜 Кухня</span></div>
+      </div>
+    </div>
+
+    <!-- DAY 2 -->
+    <div class="day-card">
+      <div class="day-illustration d2">
+        <span class="day-number-badge">ДЕНЬ 2</span>
+        <svg viewBox="0 0 260 240" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#14532d"/><stop offset="100%" stop-color="#16a34a"/></linearGradient>
+          </defs>
+          <rect width="260" height="240" fill="url(#sky2)"/>
+          <!-- Temple towers Po Nagar -->
+          <!-- Tower 1 (main) -->
+          <rect x="95" y="75" width="40" height="100" fill="#a16207"/>
+          <polygon points="95,75 115,40 135,75" fill="#ca8a04"/>
+          <polygon points="100,75 115,52 130,75" fill="#fbbf24"/>
+          <rect x="107" y="100" width="16" height="20" rx="2" fill="#78350f"/>
+          <!-- Tower 2 (small left) -->
+          <rect x="50" y="105" width="28" height="65" fill="#a16207"/>
+          <polygon points="50,105 64,78 78,105" fill="#ca8a04"/>
+          <polygon points="55,105 64,85 73,105" fill="#fbbf24"/>
+          <!-- Tower 3 (small right) -->
+          <rect x="182" y="115" width="22" height="55" fill="#a16207"/>
+          <polygon points="182,115 193,92 204,115" fill="#ca8a04"/>
+          <!-- Steps -->
+          <rect x="88" y="170" width="54" height="8" rx="2" fill="#92400e"/>
+          <rect x="82" y="176" width="66" height="8" rx="2" fill="#78350f"/>
+          <!-- Ground -->
+          <rect x="0" y="183" width="260" height="57" fill="#166534"/>
+          <!-- Trees around -->
+          <rect x="160" y="150" width="8" height="34" rx="4" fill="#15803d"/>
+          <circle cx="164" cy="147" r="16" fill="#16a34a"/>
+          <rect x="30" y="155" width="7" height="28" rx="3" fill="#15803d"/>
+          <circle cx="33" cy="152" r="13" fill="#22c55e"/>
+          <!-- Sun -->
+          <circle cx="215" cy="35" r="22" fill="#fde68a" opacity=".9"/>
+          <circle cx="215" cy="35" r="16" fill="#fbbf24"/>
+          <!-- Clouds -->
+          <ellipse cx="60" cy="50" rx="28" ry="14" fill="rgba(255,255,255,.25)"/>
+          <ellipse cx="80" cy="45" rx="20" ry="12" fill="rgba(255,255,255,.2)"/>
+        </svg>
+      </div>
+      <div class="day-body">
+        <div class="day-date">14 июля · понедельник</div>
+        <div class="day-title">Башни По Нагар и Пагода Длинный Сон</div>
+        <ul class="schedule">
+          <li>
+            <span class="stime">08:00</span>
+            <span class="sdot" style="background:#fbbf24"></span>
+            <span class="sdesc">Завтрак в отеле или в кафе Café des Amis у набережной</span>
+          </li>
+          <li>
+            <span class="stime">09:30</span>
+            <span class="sdot" style="background:#a16207"></span>
+            <span class="sdesc">Башни По Нагар (Tháp Bà Ponagar) — 2000-летний храмовый комплекс чамов</span>
+          </li>
+          <li>
+            <span class="stime">12:00</span>
+            <span class="sdot" style="background:#16a34a"></span>
+            <span class="sdesc">Пагода Длинный Сон (Chùa Long Sơn) — белый Будда на вершине горы, панорама города</span>
+          </li>
+          <li>
+            <span class="stime">14:00</span>
+            <span class="sdot" style="background:#fb7185"></span>
+            <span class="sdesc">Обед в уличных кафе на рынке Дам — Bún bò Huế, свежие роллы</span>
+          </li>
+          <li>
+            <span class="stime">16:00</span>
+            <span class="sdot" style="background:#0891b2"></span>
+            <span class="sdesc">Пляж Чай (Bãi Trại) — купание и первый закат вдвоём</span>
+          </li>
+        </ul>
+        <div class="tip-box"><strong>Совет:</strong> В башни По Нагар нужна скромная одежда. Сандалии снимают у входа. Вход ~22 000₫.</div>
+        <div class="tags"><span class="tag tag-culture">🏛️ Культура</span><span class="tag tag-sea">🌊 Пляж</span><span class="tag tag-food">🍜 Стрит-фуд</span></div>
+      </div>
+    </div>
+
+    <!-- DAY 3 -->
+    <div class="day-card">
+      <div class="day-illustration d3">
+        <span class="day-number-badge">ДЕНЬ 3</span>
+        <svg viewBox="0 0 260 240" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sky3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4c1d95"/><stop offset="100%" stop-color="#a855f7"/></linearGradient>
+            <linearGradient id="sea3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0891b2"/><stop offset="100%" stop-color="#0e7490"/></linearGradient>
+          </defs>
+          <rect width="260" height="240" fill="url(#sky3)"/>
+          <!-- Sea -->
+          <rect x="0" y="175" width="260" height="65" fill="url(#sea3)"/>
+          <!-- Island Vinpearl -->
+          <ellipse cx="130" cy="178" rx="80" ry="15" fill="#166534"/>
+          <!-- Cable car poles -->
+          <line x1="40" y1="100" x2="40" y2="178" stroke="#64748b" stroke-width="4"/>
+          <line x1="130" y1="80" x2="130" y2="178" stroke="#64748b" stroke-width="4"/>
+          <line x1="220" y1="100" x2="220" y2="178" stroke="#64748b" stroke-width="4"/>
+          <!-- Cables -->
+          <path d="M20,140 Q40,100 130,80 Q220,100 240,140" fill="none" stroke="#374151" stroke-width="2"/>
+          <!-- Cable cars -->
+          <rect x="72" y="104" width="20" height="14" rx="3" fill="#fbbf24"/>
+          <rect x="75" y="101" width="14" height="4" rx="2" fill="#374151"/>
+          <rect x="162" y="96" width="20" height="14" rx="3" fill="#f43f5e"/>
+          <rect x="165" y="93" width="14" height="4" rx="2" fill="#374151"/>
+          <!-- Ferris wheel -->
+          <circle cx="155" cy="148" r="22" fill="none" stroke="#fbbf24" stroke-width="3"/>
+          <circle cx="155" cy="148" r="5" fill="#fbbf24"/>
+          <line x1="155" y1="126" x2="155" y2="170" stroke="#fbbf24" stroke-width="2"/>
+          <line x1="133" y1="148" x2="177" y2="148" stroke="#fbbf24" stroke-width="2"/>
+          <line x1="139" y1="132" x2="171" y2="164" stroke="#fbbf24" stroke-width="1.5"/>
+          <line x1="139" y1="164" x2="171" y2="132" stroke="#fbbf24" stroke-width="1.5"/>
+          <!-- Ride gondolas -->
+          <rect x="151" y="122" width="8" height="6" rx="2" fill="#f43f5e"/>
+          <rect x="169" y="144" width="8" height="6" rx="2" fill="#60a5fa"/>
+          <rect x="151" y="166" width="8" height="6" rx="2" fill="#4ade80"/>
+          <rect x="133" y="144" width="8" height="6" rx="2" fill="#fbbf24"/>
+          <!-- Trees on island -->
+          <rect x="90" y="158" width="6" height="20" rx="3" fill="#15803d"/>
+          <circle cx="93" cy="156" r="10" fill="#16a34a"/>
+          <rect x="195" y="160" width="5" height="18" rx="3" fill="#15803d"/>
+          <circle cx="197" cy="158" r="9" fill="#22c55e"/>
+          <!-- Stars -->
+          <circle cx="35" cy="25" r="2" fill="white" opacity=".7"/>
+          <circle cx="195" cy="18" r="1.5" fill="white" opacity=".6"/>
+          <circle cx="230" cy="40" r="1.8" fill="white" opacity=".5"/>
+        </svg>
+      </div>
+      <div class="day-body">
+        <div class="day-date">15 июля · вторник</div>
+        <div class="day-title">Винперл Ленд — остров развлечений</div>
+        <ul class="schedule">
+          <li>
+            <span class="stime">08:30</span>
+            <span class="sdot" style="background:#a855f7"></span>
+            <span class="sdesc">Ранний старт — очередей меньше. Канатная дорога над морем (3,3 км!) на остров Hon Tre</span>
+          </li>
+          <li>
+            <span class="stime">09:30</span>
+            <span class="sdot" style="background:#f43f5e"></span>
+            <span class="sdesc">Аквапарк VinWonders: горки, ленивая река, волновой бассейн</span>
+          </li>
+          <li>
+            <span class="stime">13:00</span>
+            <span class="sdot" style="background:#fbbf24"></span>
+            <span class="sdesc">Обед на территории парка (шведский стол включён в билет)</span>
+          </li>
+          <li>
+            <span class="stime">14:30</span>
+            <span class="sdot" style="background:#60a5fa"></span>
+            <span class="sdesc">Колесо обозрения, аттракционы, зоопарк Safari — дельфинарий</span>
+          </li>
+          <li>
+            <span class="stime">18:00</span>
+            <span class="sdot" style="background:#4ade80"></span>
+            <span class="sdesc">Возвращение на закате — канатная дорога в огнях заката</span>
+          </li>
+        </ul>
+        <div class="tip-box"><strong>Билеты:</strong> ~800 000₫/чел (~$32). Покупайте онлайн — скидка 10–15%.</div>
+        <div class="tags"><span class="tag tag-sea">🎢 Аттракционы</span><span class="tag tag-relax">🌊 Аквапарк</span></div>
+      </div>
+    </div>
+
+    <!-- DAY 4 -->
+    <div class="day-card">
+      <div class="day-illustration d4">
+        <span class="day-number-badge">ДЕНЬ 4</span>
+        <svg viewBox="0 0 260 240" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sky4" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0369a1"/><stop offset="100%" stop-color="#38bdf8"/></linearGradient>
+            <linearGradient id="sea4" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0284c7"/><stop offset="100%" stop-color="#0369a1"/></linearGradient>
+          </defs>
+          <rect width="260" height="240" fill="url(#sky4)"/>
+          <rect x="0" y="145" width="260" height="95" fill="url(#sea4)"/>
+          <!-- Wave highlights -->
+          <path d="M0,150 Q40,143 80,150 Q120,157 160,150 Q200,143 240,150 Q260,155 260,150" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="2"/>
+          <path d="M0,165 Q50,158 100,165 Q150,172 200,165 Q230,160 260,165" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
+          <!-- Island 1 -->
+          <ellipse cx="55" cy="148" rx="40" ry="12" fill="#166534"/>
+          <rect x="48" y="118" width="8" height="30" rx="4" fill="#15803d"/>
+          <ellipse cx="52" cy="116" rx="18" ry="8" fill="#16a34a" transform="rotate(-20,52,116)"/>
+          <ellipse cx="52" cy="112" rx="16" ry="7" fill="#22c55e" transform="rotate(15,52,112)"/>
+          <!-- Island 2 -->
+          <ellipse cx="195" cy="150" rx="45" ry="13" fill="#14532d"/>
+          <rect x="190" y="122" width="7" height="28" rx="3.5" fill="#15803d"/>
+          <ellipse cx="193" cy="120" rx="16" ry="7" fill="#22c55e" transform="rotate(-10,193,120)"/>
+          <!-- Boat -->
+          <path d="M95,150 L165,150 L155,168 L105,168 Z" fill="#fbbf24"/>
+          <rect x="125" y="135" width="4" height="18" fill="#92400e"/>
+          <path d="M129,136 L155,145 L129,154 Z" fill="white" opacity=".9"/>
+          <!-- People silhouettes on boat -->
+          <circle cx="115" cy="150" r="6" fill="#92400e"/>
+          <circle cx="148" cy="150" r="6" fill="#a16207"/>
+          <!-- Fish underwater -->
+          <ellipse cx="80" cy="178" rx="10" ry="5" fill="#fbbf24" opacity=".6"/>
+          <path d="M90,178 L98,173 L98,183 Z" fill="#fbbf24" opacity=".6"/>
+          <ellipse cx="185" cy="185" rx="8" ry="4" fill="#f43f5e" opacity=".5"/>
+          <path d="M193,185 L200,181 L200,189 Z" fill="#f43f5e" opacity=".5"/>
+          <!-- Sun -->
+          <circle cx="220" cy="38" r="24" fill="#fde68a"/>
+          <circle cx="220" cy="38" r="18" fill="#fbbf24"/>
+          <!-- Clouds -->
+          <ellipse cx="70" cy="42" rx="30" ry="14" fill="rgba(255,255,255,.28)"/>
+          <ellipse cx="92" cy="37" rx="22" ry="12" fill="rgba(255,255,255,.22)"/>
+        </svg>
+      </div>
+      <div class="day-body">
+        <div class="day-date">16 июля · среда</div>
+        <div class="day-title">Тур на 4 острова — снорклинг и морской день</div>
+        <ul class="schedule">
+          <li>
+            <span class="stime">08:00</span>
+            <span class="sdot" style="background:#38bdf8"></span>
+            <span class="sdesc">Отплытие с пристани Cầu Đá — тур на яхте к четырём островам</span>
+          </li>
+          <li>
+            <span class="stime">09:30</span>
+            <span class="sdot" style="background:#0891b2"></span>
+            <span class="sdesc">Остров Мун (Hòn Mun) — снорклинг среди коралловых рифов с рыбками</span>
+          </li>
+          <li>
+            <span class="stime">11:30</span>
+            <span class="sdot" style="background:#4ade80"></span>
+            <span class="sdesc">Остров Там (Hòn Tằm) — белый пляж, купание, гамаки</span>
+          </li>
+          <li>
+            <span class="stime">13:00</span>
+            <span class="sdot" style="background:#fbbf24"></span>
+            <span class="sdesc">Плавающий обед на борту — морепродукты, рис, фрукты</span>
+          </li>
+          <li>
+            <span class="stime">15:00</span>
+            <span class="sdot" style="background:#fb7185"></span>
+            <span class="sdesc">Остров Мот (Hòn Một) и Миу (Hòn Miễu) — рыбацкие деревушки</span>
+          </li>
+          <li>
+            <span class="stime">17:30</span>
+            <span class="sdot" style="background:#a855f7"></span>
+            <span class="sdesc">Возвращение в порт, ужин с вином на набережной</span>
+          </li>
+        </ul>
+        <div class="tip-box"><strong>Организация:</strong> Тур ~350 000–500 000₫/чел. Берите маску и трубку — на борту часто дают напрокат, но своё лучше.</div>
+        <div class="tags"><span class="tag tag-sea">🤿 Снорклинг</span><span class="tag tag-sea">⛵ Яхта</span><span class="tag tag-food">🦞 Морепродукты</span></div>
+      </div>
+    </div>
+
+    <!-- DAY 5 -->
+    <div class="day-card">
+      <div class="day-illustration d5">
+        <span class="day-number-badge">ДЕНЬ 5</span>
+        <svg viewBox="0 0 260 240" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sky5" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0f766e"/><stop offset="100%" stop-color="#2dd4bf"/></linearGradient>
+          </defs>
+          <rect width="260" height="240" fill="url(#sky5)"/>
+          <!-- Horizon sea -->
+          <rect x="0" y="165" width="260" height="75" fill="#0891b2"/>
+          <path d="M0,168 Q65,160 130,168 Q195,176 260,168" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2"/>
+          <!-- Beach -->
+          <path d="M0,175 Q130,165 260,175 L260,200 L0,200 Z" fill="#fef3c7"/>
+          <!-- Umbrellas -->
+          <!-- Umbrella 1 -->
+          <path d="M75,155 Q95,138 115,155" fill="#f43f5e"/>
+          <line x1="95" y1="155" x2="95" y2="185" stroke="#92400e" stroke-width="3"/>
+          <!-- Umbrella 2 -->
+          <path d="M145,155 Q165,138 185,155" fill="#fbbf24"/>
+          <line x1="165" y1="155" x2="165" y2="185" stroke="#92400e" stroke-width="3"/>
+          <!-- Sun loungers -->
+          <rect x="80" y="175" width="30" height="8" rx="4" fill="#fde68a"/>
+          <circle cx="78" cy="175" r="7" fill="#fca5a5"/><!-- person -->
+          <rect x="150" y="175" width="30" height="8" rx="4" fill="#fde68a"/>
+          <circle cx="148" cy="175" r="7" fill="#fca5a5"/>
+          <!-- Spa elements - lotus/relax -->
+          <circle cx="200" cy="100" r="28" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+          <circle cx="200" cy="100" r="20" fill="rgba(255,255,255,.1)" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+          <!-- Lotus flower -->
+          <ellipse cx="200" cy="100" rx="6" ry="10" fill="#fda4af" transform="rotate(0,200,100)"/>
+          <ellipse cx="200" cy="100" rx="6" ry="10" fill="#fda4af" transform="rotate(72,200,100)"/>
+          <ellipse cx="200" cy="100" rx="6" ry="10" fill="#fda4af" transform="rotate(144,200,100)"/>
+          <ellipse cx="200" cy="100" rx="6" ry="10" fill="#fda4af" transform="rotate(216,200,100)"/>
+          <ellipse cx="200" cy="100" rx="6" ry="10" fill="#fda4af" transform="rotate(288,200,100)"/>
+          <circle cx="200" cy="100" r="8" fill="#fbbf24"/>
+          <!-- Sun -->
+          <circle cx="38" cy="38" r="22" fill="#fde68a" opacity=".9"/>
+          <circle cx="38" cy="38" r="16" fill="#fbbf24"/>
+          <!-- Palm -->
+          <rect x="25" y="130" width="7" height="50" rx="3" fill="#15803d"/>
+          <ellipse cx="28" cy="128" rx="22" ry="10" fill="#16a34a" transform="rotate(-25,28,128)"/>
+          <ellipse cx="28" cy="123" rx="19" ry="9" fill="#22c55e" transform="rotate(20,28,123)"/>
+          <ellipse cx="28" cy="119" rx="18" ry="8" fill="#16a34a" transform="rotate(-40,28,119)"/>
+        </svg>
+      </div>
+      <div class="day-body">
+        <div class="day-date">17 июля · четверг</div>
+        <div class="day-title">День отдыха: пляж и спа-ритуал</div>
+        <ul class="schedule">
+          <li>
+            <span class="stime">09:00</span>
+            <span class="sdot" style="background:#fbbf24"></span>
+            <span class="sdesc">Ленивый завтрак в постель или в пляжном ресторане</span>
+          </li>
+          <li>
+            <span class="stime">10:00</span>
+            <span class="sdot" style="background:#38bdf8"></span>
+            <span class="sdesc">Пляж Нячанга (Bãi Nha Trang) — лежаки, купание, боулдеры</span>
+          </li>
+          <li>
+            <span class="stime">13:30</span>
+            <span class="sdot" style="background:#fb7185"></span>
+            <span class="sdesc">Спа «Galina Mud Bath & Resort» — программа для двоих: хаммам + массаж 90 мин</span>
+          </li>
+          <li>
+            <span class="stime">16:00</span>
+            <span class="sdot" style="background:#4ade80"></span>
+            <span class="sdesc">Вернуться на пляж — золотой час, фотосессия на закате</span>
+          </li>
+          <li>
+            <span class="stime">19:30</span>
+            <span class="sdot" style="background:#a855f7"></span>
+            <span class="sdesc">Романтический ужин: ресторан El Coyote Loco или рыбный рынок Xóm Lưới</span>
+          </li>
+        </ul>
+        <div class="tip-box"><strong>Спа:</strong> Galina — ~400 000₫/чел. Бронируйте с утра, места расходятся.</div>
+        <div class="tags"><span class="tag tag-spa">💆 Спа</span><span class="tag tag-relax">🏖️ Пляж</span><span class="tag tag-food">🍷 Ужин</span></div>
+      </div>
+    </div>
+
+    <!-- DAY 6 -->
+    <div class="day-card">
+      <div class="day-illustration d6">
+        <span class="day-number-badge">ДЕНЬ 6</span>
+        <svg viewBox="0 0 260 240" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="bg6" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#9d174d"/><stop offset="100%" stop-color="#f43f5e"/></linearGradient>
+          </defs>
+          <rect width="260" height="240" fill="url(#bg6)"/>
+          <!-- Steamy pools -->
+          <ellipse cx="90" cy="175" rx="60" ry="25" fill="#fde68a" opacity=".2" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+          <ellipse cx="90" cy="175" rx="48" ry="20" fill="#92400e" opacity=".7"/>
+          <!-- Mud texture in pool -->
+          <ellipse cx="90" cy="175" rx="42" ry="17" fill="#78350f" opacity=".8"/>
+          <circle cx="75" cy="170" r="4" fill="#92400e" opacity=".6"/>
+          <circle cx="100" cy="178" r="6" fill="#a16207" opacity=".5"/>
+          <circle cx="82" cy="180" r="3" fill="#78350f" opacity=".7"/>
+          <!-- Couple in mud bath -->
+          <circle cx="75" cy="165" r="12" fill="#fca5a5"/><!-- head person 1 -->
+          <path d="M65,175 Q75,168 85,175" fill="#fca5a5" stroke="none"/>
+          <circle cx="107" cy="165" r="12" fill="#fed7aa"/><!-- head person 2 -->
+          <path d="M97,175 Q107,168 117,175" fill="#fed7aa" stroke="none"/>
+          <!-- Steam wisps -->
+          <path d="M60,155 Q55,140 62,125 Q67,115 62,105" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round"/>
+          <path d="M90,152 Q85,137 92,122 Q97,112 92,102" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2" stroke-linecap="round"/>
+          <path d="M120,155 Q115,140 122,125 Q127,115 122,105" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="2" stroke-linecap="round"/>
+          <!-- Hot springs landscape -->
+          <rect x="170" y="140" width="70" height="60" rx="4" fill="rgba(0,0,0,.2)"/>
+          <text x="205" y="180" font-size="32" text-anchor="middle" font-family="serif">🌿</text>
+          <!-- Minerals/rocks -->
+          <ellipse cx="35" cy="190" rx="20" ry="12" fill="rgba(0,0,0,.25)"/>
+          <ellipse cx="220" cy="195" rx="22" ry="10" fill="rgba(0,0,0,.25)"/>
+          <!-- Tropical plants -->
+          <rect x="192" y="135" width="6" height="30" rx="3" fill="#15803d"/>
+          <ellipse cx="195" cy="133" rx="15" ry="7" fill="#22c55e" transform="rotate(-15,195,133)"/>
+          <ellipse cx="195" cy="129" rx="13" ry="6" fill="#16a34a" transform="rotate(20,195,129)"/>
+        </svg>
+      </div>
+      <div class="day-body">
+        <div class="day-date">18 июля · пятница</div>
+        <div class="day-title">Грязевые ванны и горячие источники</div>
+        <ul class="schedule">
+          <li>
+            <span class="stime">09:00</span>
+            <span class="sdot" style="background:#fbbf24"></span>
+            <span class="sdesc">Завтрак и трансфер (такси Grab ~5 км) к горячим источникам Тхап Ба</span>
+          </li>
+          <li>
+            <span class="stime">10:00</span>
+            <span class="sdot" style="background:#fb7185"></span>
+            <span class="sdesc">Индивидуальная ванна на двоих — 35 минут в целебной минеральной грязи</span>
+          </li>
+          <li>
+            <span class="stime">11:00</span>
+            <span class="sdot" style="background:#f97316"></span>
+            <span class="sdesc">Бассейны с минеральной водой разной температуры (36–42°C) под открытым небом</span>
+          </li>
+          <li>
+            <span class="stime">13:00</span>
+            <span class="sdot" style="background:#4ade80"></span>
+            <span class="sdesc">Обед в садовом ресторане при комплексе — свежий кокос, вьетнамский суп</span>
+          </li>
+          <li>
+            <span class="stime">15:00</span>
+            <span class="sdot" style="background:#38bdf8"></span>
+            <span class="sdesc">Послеполуденный отдых на пляже или в отеле с книгой</span>
+          </li>
+          <li>
+            <span class="stime">19:00</span>
+            <span class="sdot" style="background:#a855f7"></span>
+            <span class="sdesc">Ужин в ресторане Truc Linh 2 — рыба и морепродукты, живые ракообразные</span>
+          </li>
+        </ul>
+        <div class="tip-box"><strong>Тхап Ба:</strong> ванна на двоих ~430 000₫, +бассейны — весь день.</div>
+        <div class="tags"><span class="tag tag-spa">🛁 Грязь</span><span class="tag tag-spa">♨️ Источники</span><span class="tag tag-relax">🌿 Релакс</span></div>
+      </div>
+    </div>
+
+    <!-- DAY 7 -->
+    <div class="day-card">
+      <div class="day-illustration d7">
+        <span class="day-number-badge">ДЕНЬ 7</span>
+        <svg viewBox="0 0 260 240" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="jungle7" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#14532d"/><stop offset="100%" stop-color="#4ade80"/></linearGradient>
+          </defs>
+          <rect width="260" height="240" fill="url(#jungle7)"/>
+          <!-- Cliffs/rocks -->
+          <path d="M0,180 L0,240 L260,240 L260,180 Q220,155 180,160 Q150,163 130,155 Q100,147 70,160 Q35,173 0,180Z" fill="#166534"/>
+          <!-- Waterfall stream -->
+          <path d="M120,0 L120,30 Q122,50 118,70 Q116,90 120,110 Q122,130 118,155" stroke="rgba(255,255,255,.9)" stroke-width="8" fill="none" stroke-linecap="round"/>
+          <path d="M120,0 L120,30 Q122,50 118,70 Q116,90 120,110 Q122,130 118,155" stroke="rgba(255,255,255,.4)" stroke-width="14" fill="none" stroke-linecap="round"/>
+          <!-- Spray/pool at base -->
+          <ellipse cx="120" cy="160" rx="35" ry="15" fill="rgba(255,255,255,.5)"/>
+          <ellipse cx="120" cy="163" rx="28" ry="12" fill="#38bdf8" opacity=".7"/>
+          <!-- Lush foliage -->
+          <circle cx="45" cy="120" r="35" fill="#16a34a"/>
+          <circle cx="30" cy="100" r="28" fill="#22c55e"/>
+          <circle cx="65" cy="95" r="30" fill="#15803d"/>
+          <circle cx="195" cy="110" r="38" fill="#16a34a"/>
+          <circle cx="215" cy="90" r="30" fill="#22c55e"/>
+          <circle cx="175" cy="95" r="32" fill="#15803d"/>
+          <!-- Rock steps -->
+          <rect x="105" y="165" width="30" height="6" rx="2" fill="#4b5563"/>
+          <rect x="108" y="170" width="26" height="5" rx="2" fill="#374151"/>
+          <!-- Person swimming -->
+          <ellipse cx="120" cy="185" rx="8" ry="4" fill="#fca5a5" opacity=".8"/>
+          <!-- Butterflies/birds -->
+          <path d="M60,55 Q65,48 70,55 Q65,62 60,55" fill="#fbbf24" opacity=".8"/>
+          <path d="M190,65 Q195,58 200,65 Q195,72 190,65" fill="#f43f5e" opacity=".7"/>
+          <!-- Mist -->
+          <ellipse cx="120" cy="155" rx="50" ry="10" fill="rgba(255,255,255,.2)"/>
+        </svg>
+      </div>
+      <div class="day-body">
+        <div class="day-date">19 июля · суббота</div>
+        <div class="day-title">Водопады Ба Хо — джунгли и купание</div>
+        <ul class="schedule">
+          <li>
+            <span class="stime">07:30</span>
+            <span class="sdot" style="background:#4ade80"></span>
+            <span class="sdesc">Ранний выезд на мотобайках (аренда ~100 000₫/день) — 26 км к северу от Нячанга</span>
+          </li>
+          <li>
+            <span class="stime">09:00</span>
+            <span class="sdot" style="background:#38bdf8"></span>
+            <span class="sdesc">Пеший трек через джунгли (~40 мин) к первому водопаду Ба Хо (Ba Hồ)</span>
+          </li>
+          <li>
+            <span class="stime">10:00</span>
+            <span class="sdot" style="background:#0891b2"></span>
+            <span class="sdesc">Купание в трёх каскадных озёрах. Второй и третий водопады — для смелых скалолазов</span>
+          </li>
+          <li>
+            <span class="stime">13:00</span>
+            <span class="sdot" style="background:#fbbf24"></span>
+            <span class="sdesc">Пикник с едой из ближайших деревушек — bánh mì, свежие фрукты</span>
+          </li>
+          <li>
+            <span class="stime">15:00</span>
+            <span class="sdot" style="background:#fb7185"></span>
+            <span class="sdesc">Обратный путь, остановка в деревне Ninh Ích — местный рынок</span>
+          </li>
+          <li>
+            <span class="stime">19:00</span>
+            <span class="sdot" style="background:#a855f7"></span>
+            <span class="sdesc">Ужин и ранний отбой — завтра новый экшн</span>
+          </li>
+        </ul>
+        <div class="tip-box"><strong>Важно:</strong> Треккинговая обувь обязательна. Возьмите сухую смену одежды. Вход бесплатный.</div>
+        <div class="tags"><span class="tag tag-nature">🌿 Природа</span><span class="tag tag-sea">💧 Водопады</span><span class="tag tag-relax">🥾 Трекинг</span></div>
+      </div>
+    </div>
+
+    <!-- DAY 8 -->
+    <div class="day-card">
+      <div class="day-illustration d8">
+        <span class="day-number-badge">ДЕНЬ 8</span>
+        <svg viewBox="0 0 260 240" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ocean8" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1e40af"/><stop offset="100%" stop-color="#60a5fa"/></linearGradient>
+            <linearGradient id="deep8" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1e3a8a"/><stop offset="100%" stop-color="#1d4ed8"/></linearGradient>
+          </defs>
+          <rect width="260" height="240" fill="url(#ocean8)"/>
+          <!-- Water surface -->
+          <rect x="0" y="90" width="260" height="150" fill="url(#deep8)"/>
+          <path d="M0,92 Q32,85 65,92 Q97,99 130,92 Q162,85 195,92 Q228,99 260,92" fill="rgba(255,255,255,.25)" stroke="none"/>
+          <!-- Sunlight rays through water -->
+          <path d="M80,90 L50,240" stroke="rgba(255,255,255,.07)" stroke-width="20"/>
+          <path d="M130,90 L100,240" stroke="rgba(255,255,255,.06)" stroke-width="16"/>
+          <path d="M180,90 L155,240" stroke="rgba(255,255,255,.07)" stroke-width="18"/>
+          <!-- Coral reef -->
+          <ellipse cx="60" cy="215" rx="40" ry="18" fill="#f97316" opacity=".7"/>
+          <ellipse cx="60" cy="210" rx="30" ry="14" fill="#fb923c" opacity=".7"/>
+          <!-- Coral branches -->
+          <line x1="55" y1="215" x2="45" y2="190" stroke="#f97316" stroke-width="3" stroke-linecap="round"/>
+          <line x1="55" y1="215" x2="58" y2="185" stroke="#fb923c" stroke-width="3" stroke-linecap="round"/>
+          <line x1="65" y1="213" x2="72" y2="188" stroke="#f97316" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="45" cy="190" r="5" fill="#fbbf24"/>
+          <circle cx="58" cy="185" r="4" fill="#fb7185"/>
+          <circle cx="72" cy="188" r="5" fill="#fbbf24"/>
+          <!-- More coral right -->
+          <ellipse cx="200" cy="220" rx="42" ry="16" fill="#7c3aed" opacity=".6"/>
+          <line x1="195" y1="218" x2="185" y2="192" stroke="#8b5cf6" stroke-width="3" stroke-linecap="round"/>
+          <line x1="203" y1="216" x2="205" y2="188" stroke="#a855f7" stroke-width="3" stroke-linecap="round"/>
+          <line x1="210" y1="218" x2="218" y2="193" stroke="#8b5cf6" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="185" cy="192" r="5" fill="#f43f5e"/>
+          <circle cx="205" cy="188" r="4" fill="#fbbf24"/>
+          <circle cx="218" cy="193" r="5" fill="#f43f5e"/>
+          <!-- Tropical fish -->
+          <g transform="translate(110,150)">
+            <ellipse cx="0" cy="0" rx="16" ry="9" fill="#fbbf24"/>
+            <path d="M16,0 L26,-7 L26,7 Z" fill="#fbbf24"/>
+            <line x1="-8" y1="0" x2="10" y2="0" stroke="#f97316" stroke-width="2"/>
+            <circle cx="-8" cy="-2" r="2.5" fill="#1e3a8a"/>
+          </g>
+          <g transform="translate(155,175) scale(-1,1)">
+            <ellipse cx="0" cy="0" rx="12" ry="7" fill="#f43f5e"/>
+            <path d="M12,0 L20,-5 L20,5 Z" fill="#f43f5e"/>
+            <line x1="-6" y1="0" x2="8" y2="0" stroke="white" stroke-width="1.5"/>
+            <circle cx="-6" cy="-1" r="2" fill="#1e3a8a"/>
+          </g>
+          <!-- Diver silhouette -->
+          <g opacity=".85">
+            <ellipse cx="130" cy="120" rx="9" ry="7" fill="#374151"/>
+            <rect x="124" y="126" width="12" height="18" rx="4" fill="#4b5563"/>
+            <rect x="115" y="128" width="22" height="5" rx="2" fill="#374151"/>
+            <line x1="130" y1="144" x2="124" y2="158" stroke="#374151" stroke-width="4" stroke-linecap="round"/>
+            <line x1="130" y1="144" x2="136" y2="158" stroke="#374151" stroke-width="4" stroke-linecap="round"/>
+            <line x1="124" y1="128" x2="116" y2="136" stroke="#374151" stroke-width="3" stroke-linecap="round"/>
+            <line x1="136" y1="128" x2="144" y2="136" stroke="#374151" stroke-width="3" stroke-linecap="round"/>
+            <!-- Bubbles -->
+            <circle cx="140" cy="115" r="3" fill="rgba(255,255,255,.6)"/>
+            <circle cx="143" cy="108" r="2" fill="rgba(255,255,255,.5)"/>
+            <circle cx="141" cy="102" r="2.5" fill="rgba(255,255,255,.4)"/>
+          </g>
+          <!-- Boat top -->
+          <rect x="85" y="75" width="90" height="20" rx="4" fill="#fbbf24"/>
+          <rect x="95" y="60" width="4" height="20" fill="#92400e"/>
+          <path d="M99,60 L120,70 L99,80 Z" fill="white" opacity=".9"/>
+        </svg>
+      </div>
+      <div class="day-body">
+        <div class="day-date">20 июля · воскресенье</div>
+        <div class="day-title">Дайвинг в коралловых рифах</div>
+        <ul class="schedule">
+          <li>
+            <span class="stime">08:00</span>
+            <span class="sdot" style="background:#60a5fa"></span>
+            <span class="sdesc">Инструктаж и выход с дайв-центра Rainbow Divers или Sailing Club Divers</span>
+          </li>
+          <li>
+            <span class="stime">09:00</span>
+            <span class="sdot" style="background:#1d4ed8"></span>
+            <span class="sdesc">Первое погружение у острова Мун (Hòn Mun): коралловые рифы, мурены, черепахи</span>
+          </li>
+          <li>
+            <span class="stime">11:30</span>
+            <span class="sdot" style="background:#f97316"></span>
+            <span class="sdesc">Второе погружение или снорклинг для тех, кто не хочет глубже</span>
+          </li>
+          <li>
+            <span class="stime">13:30</span>
+            <span class="sdot" style="background:#fbbf24"></span>
+            <span class="sdesc">Обед на лодке, отдых под солнцем</span>
+          </li>
+          <li>
+            <span class="stime">15:00</span>
+            <span class="sdot" style="background:#4ade80"></span>
+            <span class="sdesc">Свободное плавание на коралловом мелководье</span>
+          </li>
+          <li>
+            <span class="stime">18:00</span>
+            <span class="sdot" style="background:#a855f7"></span>
+            <span class="sdesc">Просмотр фото с underwater-камеры, ужин в баре у пристани</span>
+          </li>
+        </ul>
+        <div class="tip-box"><strong>Для новичков:</strong> Discover Scuba Diving (~$55/чел) — дайвинг без сертификата с инструктором.</div>
+        <div class="tags"><span class="tag tag-sea">🤿 Дайвинг</span><span class="tag tag-nature">🐠 Рифы</span><span class="tag tag-sea">⛵ Море</span></div>
+      </div>
+    </div>
+
+    <!-- DAY 9 -->
+    <div class="day-card">
+      <div class="day-illustration d9">
+        <span class="day-number-badge">ДЕНЬ 9</span>
+        <svg viewBox="0 0 260 240" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="bg9" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7c2d12"/><stop offset="100%" stop-color="#fb923c"/></linearGradient>
+          </defs>
+          <rect width="260" height="240" fill="url(#bg9)"/>
+          <!-- Mountains background -->
+          <path d="M0,180 L50,100 L100,140 L140,80 L180,120 L220,90 L260,130 L260,240 L0,240Z" fill="rgba(0,0,0,.3)"/>
+          <path d="M0,200 L40,150 L80,170 L120,130 L160,160 L200,140 L240,165 L260,155 L260,240 L0,240Z" fill="#166534"/>
+          <!-- Waterfall Yang Bay -->
+          <path d="M140,80 Q137,105 140,130 Q142,155 138,180" stroke="rgba(255,255,255,.85)" stroke-width="10" fill="none" stroke-linecap="round"/>
+          <path d="M140,80 Q137,105 140,130 Q142,155 138,180" stroke="rgba(255,255,255,.3)" stroke-width="18" fill="none" stroke-linecap="round"/>
+          <!-- Spray pool -->
+          <ellipse cx="139" cy="188" rx="32" ry="14" fill="rgba(255,255,255,.45)"/>
+          <ellipse cx="139" cy="191" rx="25" ry="11" fill="#38bdf8" opacity=".7"/>
+          <!-- Dense jungle -->
+          <circle cx="30" cy="155" r="30" fill="#16a34a"/>
+          <circle cx="15" cy="135" r="22" fill="#22c55e"/>
+          <circle cx="55" cy="140" r="28" fill="#15803d"/>
+          <circle cx="220" cy="148" r="32" fill="#16a34a"/>
+          <circle cx="240" cy="132" r="24" fill="#22c55e"/>
+          <circle cx="200" cy="138" r="26" fill="#15803d"/>
+          <!-- Couple waterfall -->
+          <circle cx="128" cy="183" r="8" fill="#fca5a5"/>
+          <circle cx="150" cy="183" r="8" fill="#fed7aa"/>
+          <!-- Animals Yang Bay -->
+          <text x="80" y="100" font-size="20">🦋</text>
+          <text x="175" y="115" font-size="18">🦚</text>
+          <!-- Mist layer -->
+          <ellipse cx="140" cy="182" rx="45" ry="10" fill="rgba(255,255,255,.2)"/>
+          <!-- Sun upper -->
+          <circle cx="215" cy="35" r="20" fill="#fde68a" opacity=".8"/>
+        </svg>
+      </div>
+      <div class="day-body">
+        <div class="day-date">21 июля · понедельник</div>
+        <div class="day-title">Экскурсия на водопад Янг Бэй</div>
+        <ul class="schedule">
+          <li>
+            <span class="stime">08:00</span>
+            <span class="sdot" style="background:#fb923c"></span>
+            <span class="sdesc">Выезд организованным туром или такси (~45 км, ~1 ч) в горный парк Yang Bay</span>
+          </li>
+          <li>
+            <span class="stime">09:30</span>
+            <span class="sdot" style="background:#4ade80"></span>
+            <span class="sdesc">Прогулка по экопарку: ягуары, страусы, крокодилы, медведи гималайские</span>
+          </li>
+          <li>
+            <span class="stime">11:00</span>
+            <span class="sdot" style="background:#38bdf8"></span>
+            <span class="sdesc">Главный водопад Yang Bay — купание у подножия 40-метрового каскада</span>
+          </li>
+          <li>
+            <span class="stime">12:30</span>
+            <span class="sdot" style="background:#fbbf24"></span>
+            <span class="sdesc">Обед в ресторане парка — мясо дикобраза, горные овощи (необычный опыт!)</span>
+          </li>
+          <li>
+            <span class="stime">14:00</span>
+            <span class="sdot" style="background:#a855f7"></span>
+            <span class="sdesc">Термальные ванны Yang Bay — тёплые бассейны на открытом воздухе</span>
+          </li>
+          <li>
+            <span class="stime">17:00</span>
+            <span class="sdot" style="background:#fb7185"></span>
+            <span class="sdesc">Возвращение, отдых у бассейна в отеле</span>
+          </li>
+        </ul>
+        <div class="tip-box"><strong>Вход:</strong> ~150 000₫/чел. Турагенства предлагают трансфер+вход от $25/чел.</div>
+        <div class="tags"><span class="tag tag-nature">🌿 Природа</span><span class="tag tag-sea">💧 Водопад</span><span class="tag tag-spa">♨️ Купание</span></div>
+      </div>
+    </div>
+
+    <!-- DAY 10 -->
+    <div class="day-card">
+      <div class="day-illustration d10">
+        <span class="day-number-badge">ДЕНЬ 10</span>
+        <svg viewBox="0 0 260 240" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="bg10" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#854d0e"/><stop offset="100%" stop-color="#fbbf24"/></linearGradient>
+          </defs>
+          <rect width="260" height="240" fill="url(#bg10)"/>
+          <!-- Market stalls -->
+          <rect x="15" y="110" width="50" height="70" rx="3" fill="#92400e"/>
+          <path d="M10,115 L65,115 L65,108 L10,108 Z" fill="#f43f5e"/>
+          <rect x="20" y="120" width="15" height="20" rx="2" fill="#fde68a"/>
+          <rect x="40" y="120" width="15" height="20" rx="2" fill="#86efac"/>
+          <rect x="20" y="145" width="40" height="5" rx="2" fill="#fde68a" opacity=".7"/>
+          <!-- Market stall 2 -->
+          <rect x="75" y="115" width="50" height="65" rx="3" fill="#7c2d12"/>
+          <path d="M70,120 L130,120 L130,112 L70,112 Z" fill="#3b82f6"/>
+          <rect x="82" y="125" width="14" height="18" rx="2" fill="#fbbf24"/>
+          <rect x="100" y="125" width="14" height="18" rx="2" fill="#f97316"/>
+          <!-- Market stall 3 -->
+          <rect x="140" y="108" width="55" height="72" rx="3" fill="#a16207"/>
+          <path d="M135,114 L200,114 L200,105 L135,105 Z" fill="#22c55e"/>
+          <rect x="148" y="120" width="12" height="15" rx="2" fill="#fb7185"/>
+          <rect x="165" y="120" width="12" height="15" rx="2" fill="#c084fc"/>
+          <rect x="148" y="140" width="35" height="8" rx="2" fill="#fde68a" opacity=".6"/>
+          <!-- Hanging decorations -->
+          <line x1="30" y1="90" x2="70" y2="90" stroke="#92400e" stroke-width="1.5"/>
+          <circle cx="35" cy="93" r="4" fill="#f43f5e"/>
+          <circle cx="45" cy="95" r="4" fill="#fbbf24"/>
+          <circle cx="55" cy="93" r="4" fill="#4ade80"/>
+          <circle cx="65" cy="95" r="4" fill="#f43f5e"/>
+          <!-- People silhouettes shopping -->
+          <circle cx="115" cy="170" r="10" fill="#92400e"/>
+          <rect x="108" y="178" width="14" height="18" rx="4" fill="#78350f"/>
+          <circle cx="145" cy="168" r="10" fill="#a16207"/>
+          <rect x="138" y="176" width="14" height="18" rx="4" fill="#92400e"/>
+          <!-- Hon Chong rocks (right side) -->
+          <ellipse cx="220" cy="175" rx="28" ry="15" fill="#4b5563"/>
+          <ellipse cx="240" cy="165" rx="18" ry="12" fill="#374151"/>
+          <!-- Sea horizon -->
+          <rect x="0" y="195" width="260" height="45" fill="#0891b2"/>
+          <path d="M0,198 Q65,192 130,198 Q195,204 260,198" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="2"/>
+          <!-- Sun setting -->
+          <circle cx="200" cy="55" r="28" fill="#fde68a"/>
+          <circle cx="200" cy="55" r="22" fill="#fbbf24"/>
+          <circle cx="200" cy="55" r="16" fill="#f97316"/>
+        </svg>
+      </div>
+      <div class="day-body">
+        <div class="day-date">22 июля · вторник</div>
+        <div class="day-title">Рынки, Hon Chong и закатный вечер</div>
+        <ul class="schedule">
+          <li>
+            <span class="stime">09:00</span>
+            <span class="sdot" style="background:#fbbf24"></span>
+            <span class="sdesc">Рынок Дам (Chợ Đầm) — сувениры, вьетнамские сладости, шёлк, кофе</span>
+          </li>
+          <li>
+            <span class="stime">11:00</span>
+            <span class="sdot" style="background:#fb923c"></span>
+            <span class="sdesc">Ночной рынок Нячанга днём (Chợ Đêm) — скидки до 50% в несезон</span>
+          </li>
+          <li>
+            <span class="stime">13:00</span>
+            <span class="sdot" style="background:#f97316"></span>
+            <span class="sdesc">Обед: Phở bò в кафе Pho Viet — лучший бульон в городе</span>
+          </li>
+          <li>
+            <span class="stime">15:00</span>
+            <span class="sdot" style="background:#38bdf8"></span>
+            <span class="sdesc">Камни Хон Чонг (Hòn Chồng) — живописные гранитные валуны у моря, виды на залив</span>
+          </li>
+          <li>
+            <span class="stime">17:00</span>
+            <span class="sdot" style="background:#4ade80"></span>
+            <span class="sdesc">Закат на набережной с мороженым (Kem Bạch Đằng — культовое место)</span>
+          </li>
+          <li>
+            <span class="stime">19:30</span>
+            <span class="sdot" style="background:#a855f7"></span>
+            <span class="sdesc">Прощальный ужин в ресторане Yen's — panoramic view на бухту Нячанга</span>
+          </li>
+        </ul>
+        <div class="tip-box"><strong>Торгуйтесь!</strong> На рынке Дам можно сбить цену на 30–40%. Вьетнамский кофе Weasel — отличный подарок.</div>
+        <div class="tags"><span class="tag tag-food">🛍️ Шопинг</span><span class="tag tag-sea">🌊 Скалы</span><span class="tag tag-food">☕ Кофе</span></div>
+      </div>
+    </div>
+
+    <!-- DAY 11 -->
+    <div class="day-card">
+      <div class="day-illustration d11">
+        <span class="day-number-badge">ДЕНЬ 11</span>
+        <svg viewBox="0 0 260 240" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="bg11" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#9f1239"/><stop offset="100%" stop-color="#f43f5e"/></linearGradient>
+            <linearGradient id="sky11" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0c4a6e"/><stop offset="40%" stop-color="#0e7490"/><stop offset="100%" stop-color="#f43f5e"/></linearGradient>
+          </defs>
+          <rect width="260" height="240" fill="url(#sky11)"/>
+          <!-- Sunset sea -->
+          <rect x="0" y="165" width="260" height="75" fill="#0e7490"/>
+          <!-- Sunset reflection on water -->
+          <path d="M100,165 L115,240 L145,240 L160,165" fill="rgba(251,191,36,.25)"/>
+          <!-- Wave -->
+          <path d="M0,168 Q32,160 65,168 Q97,176 130,168 Q162,160 195,168 Q228,176 260,168" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="2"/>
+          <!-- Big sunset sun half-set -->
+          <clipPath id="waterClip"><rect x="0" y="165" width="260" height="75"/></clipPath>
+          <circle cx="130" cy="165" r="45" fill="#fde68a"/>
+          <circle cx="130" cy="165" r="45" fill="#fbbf24" opacity=".5"/>
+          <!-- Sunlight glow -->
+          <ellipse cx="130" cy="165" rx="80" ry="30" fill="rgba(251,191,36,.15)"/>
+          <!-- Silhouette couple beach -->
+          <g fill="#1c1917">
+            <!-- Person 1 -->
+            <circle cx="110" cy="155" r="9"/>
+            <rect x="103" y="162" width="14" height="20" rx="5"/>
+            <rect x="96" y="164" width="10" height="5" rx="2" transform="rotate(-15,96,164)"/>
+            <!-- Person 2 (leaning closer) -->
+            <circle cx="140" cy="155" r="9"/>
+            <rect x="133" y="162" width="14" height="20" rx="5"/>
+            <rect x="150" y="164" width="10" height="5" rx="2" transform="rotate(15,150,164)"/>
+            <!-- Holding hands -->
+            <rect x="122" y="168" width="18" height="5" rx="2.5"/>
+          </g>
+          <!-- Palm silhouettes -->
+          <rect x="28" y="100" width="8" height="75" rx="4" fill="rgba(0,0,0,.6)"/>
+          <ellipse cx="32" cy="98" rx="24" ry="10" fill="rgba(0,0,0,.6)" transform="rotate(-20,32,98)"/>
+          <ellipse cx="32" cy="93" rx="20" ry="9" fill="rgba(0,0,0,.5)" transform="rotate(18,32,93)"/>
+          <ellipse cx="32" cy="89" rx="18" ry="8" fill="rgba(0,0,0,.55)" transform="rotate(-40,32,89)"/>
+          <rect x="218" y="105" width="7" height="70" rx="3.5" fill="rgba(0,0,0,.6)"/>
+          <ellipse cx="221" cy="103" rx="22" ry="9" fill="rgba(0,0,0,.55)" transform="rotate(20,221,103)"/>
+          <ellipse cx="221" cy="98" rx="19" ry="8" fill="rgba(0,0,0,.5)" transform="rotate(-15,221,98)"/>
+          <!-- Stars appearing -->
+          <circle cx="50" cy="20" r="2" fill="white" opacity=".8"/>
+          <circle cx="80" cy="10" r="1.5" fill="white" opacity=".7"/>
+          <circle cx="180" cy="15" r="2" fill="white" opacity=".75"/>
+          <circle cx="210" cy="25" r="1.5" fill="white" opacity=".6"/>
+          <!-- Plane departing -->
+          <g transform="translate(170,55) rotate(30)">
+            <path d="M0,5 L30,2 L33,5 L30,8 Z" fill="rgba(255,255,255,.7)"/>
+            <path d="M12,2 L22,-4 L24,0 L15,5 Z" fill="rgba(255,255,255,.6)"/>
+          </g>
+          <path d="M155,72 Q175,60 195,55" stroke="rgba(255,255,255,.3)" stroke-width="1.5" fill="none" stroke-dasharray="3,2"/>
+        </svg>
+      </div>
+      <div class="day-body">
+        <div class="day-date">23 июля · среда</div>
+        <div class="day-title">Прощальный рассвет и вылет домой</div>
+        <ul class="schedule">
+          <li>
+            <span class="stime">06:30</span>
+            <span class="sdot" style="background:#fbbf24"></span>
+            <span class="sdesc">Рассвет на пляже — последние минуты с тропическим морем вдвоём</span>
+          </li>
+          <li>
+            <span class="stime">08:00</span>
+            <span class="sdot" style="background:#f43f5e"></span>
+            <span class="sdesc">Завтрак в любимом кафе за эти дни — прощальный phở или bánh mì</span>
+          </li>
+          <li>
+            <span class="stime">09:30</span>
+            <span class="sdot" style="background:#38bdf8"></span>
+            <span class="sdesc">Чекаут из отеля, последний шопинг если что-то не купили</span>
+          </li>
+          <li>
+            <span class="stime">11:00</span>
+            <span class="sdot" style="background:#4ade80"></span>
+            <span class="sdesc">Трансфер в аэропорт Камрань (~35 мин заранее забронировать)</span>
+          </li>
+          <li>
+            <span class="stime">12:30</span>
+            <span class="sdot" style="background:#a855f7"></span>
+            <span class="sdesc">Регистрация, прощальный вьетнамский кофе в аэропорту</span>
+          </li>
+          <li>
+            <span class="stime">14:00</span>
+            <span class="sdot" style="background:#fb7185"></span>
+            <span class="sdesc">Вылет домой с багажом воспоминаний, загаром и любовью к Вьетнаму ✈️</span>
+          </li>
+        </ul>
+        <div class="tip-box"><strong>Сувениры:</strong> Вьетнамский кофе, лаковые шкатулки, шёлк, ракушки, рыбный соус нуок мам.</div>
+        <div class="tags"><span class="tag tag-sea">🌅 Закат</span><span class="tag tag-food">☕ Кофе</span><span class="tag tag-relax">✈️ Домой</span></div>
+      </div>
+    </div>
+
+  </div><!-- /days -->
+
+  <!-- ═══ FOOD SECTION ═══ -->
+  <h2 class="section-title" style="margin-top:4rem">🍜 Что попробовать обязательно</h2>
+  <div class="food-grid">
+    <div class="food-card">
+      <div class="food-img" style="background:#fef9c3">🍜</div>
+      <div class="food-info">
+        <div class="food-name">Phở bò</div>
+        <div class="food-desc">Говяжий суп с рисовой лапшой, звезда вьетнамской кухни</div>
+      </div>
+    </div>
+    <div class="food-card">
+      <div class="food-img" style="background:#fce7f3">🥖</div>
+      <div class="food-info">
+        <div class="food-name">Bánh mì</div>
+        <div class="food-desc">Хрустящий сэндвич с зеленью, свининой или яичницей — 25 000₫</div>
+      </div>
+    </div>
+    <div class="food-card">
+      <div class="food-img" style="background:#dcfce7">🦐</div>
+      <div class="food-info">
+        <div class="food-name">Tôm nướng</div>
+        <div class="food-desc">Королевские креветки гриль — свежайшие прямо с рынка</div>
+      </div>
+    </div>
+    <div class="food-card">
+      <div class="food-img" style="background:#e0f2fe">🫕</div>
+      <div class="food-info">
+        <div class="food-name">Bún bò Huế</div>
+        <div class="food-desc">Пряный говяжий суп с лемонграссом — острее phở</div>
+      </div>
+    </div>
+    <div class="food-card">
+      <div class="food-img" style="background:#fef3c7">🥥</div>
+      <div class="food-info">
+        <div class="food-name">Chè dừa</div>
+        <div class="food-desc">Десерт из кокосового молока с желе — освежает в жару</div>
+      </div>
+    </div>
+    <div class="food-card">
+      <div class="food-img" style="background:#ffe4e6">☕</div>
+      <div class="food-info">
+        <div class="food-name">Cà phê trứng</div>
+        <div class="food-desc">Кофе с яичным кремом — визитная карточка Вьетнама</div>
+      </div>
+    </div>
+    <div class="food-card">
+      <div class="food-img" style="background:#dcfce7">🦀</div>
+      <div class="food-info">
+        <div class="food-name">Cua Hội An</div>
+        <div class="food-desc">Краб по-вьетнамски в соусе тамаринд или с солью и перцем</div>
+      </div>
+    </div>
+    <div class="food-card">
+      <div class="food-img" style="background:#fff7ed">🌯</div>
+      <div class="food-info">
+        <div class="food-name">Gỏi cuốn</div>
+        <div class="food-desc">Свежие рисовые роллы с креветками, мятой и арахисовым соусом</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ TIPS SECTION ═══ -->
+  <h2 class="section-title" style="margin-top:4rem">💡 Полезные советы</h2>
+  <div class="tips-grid">
+    <div class="tips-card">
+      <h4>💰 Бюджет</h4>
+      <ul>
+        <li>Жильё: от $40/ночь (3★) до $90/ночь (4★ с видом)</li>
+        <li>Еда: $5–15 на двоих в кафе, $30–60 в ресторане</li>
+        <li>Транспорт: Grab-такси ~2–5$ по городу</li>
+        <li>Итого комфортно: ~$1500–2000 на двоих</li>
+      </ul>
+    </div>
+    <div class="tips-card">
+      <h4>🌦️ Погода в июле</h4>
+      <p>Июль — лучший сезон. Жара +30–33°C, море +28°C. Короткие тропические ливни вечером (15–30 мин). Ультрафиолет высокий — крем SPF 50 обязателен.</p>
+    </div>
+    <div class="tips-card">
+      <h4>📱 Связь</h4>
+      <ul>
+        <li>SIM Viettel или Mobifone в аэропорту — 10 ГБ за ~5$</li>
+        <li>Grab — такси-приложение (лучше Uber)</li>
+        <li>Google Maps работает отлично</li>
+        <li>VPN пригодится для некоторых сайтов</li>
+      </ul>
+    </div>
+    <div class="tips-card">
+      <h4>🏨 Где жить</h4>
+      <ul>
+        <li><strong>Пляжный район:</strong> отели на Trần Phú — прямо у моря</li>
+        <li><strong>Центр:</strong> район рынка Дам — ближе к жизни города</li>
+        <li>Рекомендуем: Sheraton, Havana, Mia Resort (5★)</li>
+      </ul>
+    </div>
+    <div class="tips-card">
+      <h4>🎒 Что взять</h4>
+      <ul>
+        <li>Лёгкая одежда из хлопка/льна</li>
+        <li>Маска и трубка для снорклинга</li>
+        <li>Защита от солнца (крем, очки, шляпа)</li>
+        <li>Треккинговая обувь для водопадов</li>
+        <li>Небольшой рюкзак для экскурсий</li>
+      </ul>
+    </div>
+    <div class="tips-card">
+      <h4>⚠️ Важное</h4>
+      <ul>
+        <li>Виза: е-виза для РФ (~$25, 90 дней)</li>
+        <li>Страховка с покрытием дайвинга</li>
+        <li>Торгуйтесь на рынках — это норма</li>
+        <li>Наличные VND — многие кафе не берут карты</li>
+      </ul>
+    </div>
+  </div>
+
+</main>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <h3>🌴 Нячанг ждёт вас!</h3>
+  <p>Приятного путешествия. Chúc may mắn! — Удачи по-вьетнамски</p>
+  <p style="margin-top:.5rem; opacity:.45; font-size:.8rem;">13 – 23 июля 2025 · Нячанг, Вьетнам</p>
+</footer>
+
+</body>
+</html>
