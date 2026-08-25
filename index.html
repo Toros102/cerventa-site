@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cerventa — Commercial Painting, Drywall &amp; Finishing Contractor</title>
+<meta name="description" content="Cerventa by KATAEV LLC — commercial painting, drywall, wall coverings, interior finishing and construction cleaning. Subcontractor and general contractor services.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0B2545;
+    --navy-deep:#071A33;
+    --blue:#1B4DB1;
+    --orange:#F26A21;
+    --teal:#12A5A5;
+    --ink:#14181F;
+    --body:#4A5361;
+    --line:#E2E6EC;
+    --bg:#FFFFFF;
+    --bg-soft:#F5F7FA;
+    --maxw:1140px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);background:var(--bg);line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  a{color:inherit}
+
+  /* ---------- header ---------- */
+  .site-header{
+    position:absolute;top:0;left:0;right:0;z-index:10;padding:22px 0;
+  }
+  .header-row{display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+  .brand-mark{
+    width:36px;height:36px;border-radius:9px;flex:none;
+    background:linear-gradient(135deg,var(--blue),var(--teal));
+    display:grid;place-items:center;
+    font-weight:800;color:#fff;font-size:19px;letter-spacing:-.02em;
+  }
+  .brand-name{font-weight:700;font-size:20px;letter-spacing:-.02em;color:#fff}
+  .brand-name span{color:var(--orange)}
+  .header-mail{
+    color:rgba(255,255,255,.86);text-decoration:none;font-size:14.5px;font-weight:500;
+    border-bottom:1px solid rgba(255,255,255,.25);padding-bottom:2px;
+  }
+  .header-mail:hover{color:#fff;border-color:var(--orange)}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;color:#fff;
+    background:
+      radial-gradient(1100px 520px at 78% -8%, rgba(27,77,177,.55), transparent 62%),
+      radial-gradient(760px 460px at 8% 108%, rgba(18,165,165,.30), transparent 60%),
+      linear-gradient(168deg,var(--navy) 0%,var(--navy-deep) 100%);
+    padding:150px 0 96px;overflow:hidden;
+  }
+  .hero::after{
+    content:"";position:absolute;left:0;right:0;bottom:0;height:5px;
+    background:linear-gradient(90deg,var(--orange) 0 33%,var(--teal) 33% 66%,var(--blue) 66% 100%);
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:9px;
+    font-size:12.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;
+    color:rgba(255,255,255,.78);
+    border:1px solid rgba(255,255,255,.22);border-radius:100px;
+    padding:7px 15px;margin-bottom:26px;
+  }
+  .eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--orange);flex:none}
+  .hero h1{
+    font-size:clamp(2.15rem,5.4vw,4rem);line-height:1.08;font-weight:800;
+    letter-spacing:-.032em;max-width:19ch;margin-bottom:22px;
+  }
+  .hero h1 em{font-style:normal;color:var(--orange)}
+  .hero p.lede{
+    font-size:clamp(1.03rem,1.7vw,1.2rem);color:rgba(255,255,255,.80);
+    max-width:60ch;margin-bottom:36px;
+  }
+  .cta-row{display:flex;flex-wrap:wrap;gap:13px;align-items:center}
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;
+    padding:14px 26px;border-radius:9px;text-decoration:none;
+    font-weight:600;font-size:15.5px;transition:.16s ease;
+  }
+  .btn-primary{background:var(--orange);color:#fff}
+  .btn-primary:hover{background:#DD5A15;transform:translateY(-1px)}
+  .btn-ghost{border:1px solid rgba(255,255,255,.3);color:#fff}
+  .btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.07)}
+
+  .trades{
+    margin-top:52px;padding-top:26px;border-top:1px solid rgba(255,255,255,.14);
+    display:flex;flex-wrap:wrap;gap:10px 26px;
+    font-size:12.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;
+    color:rgba(255,255,255,.62);
+  }
+
+  /* ---------- sections ---------- */
+  section.band{padding:88px 0}
+  .band-soft{background:var(--bg-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sec-head{max-width:62ch;margin-bottom:44px}
+  .sec-kicker{
+    font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--blue);margin-bottom:12px;
+  }
+  .sec-head h2{
+    font-size:clamp(1.6rem,3.1vw,2.3rem);line-height:1.2;
+    letter-spacing:-.025em;font-weight:700;margin-bottom:13px;
+  }
+  .sec-head p{color:var(--body);font-size:1.02rem}
+
+  .grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(268px,1fr))}
+  .card{
+    background:#fff;border:1px solid var(--line);border-radius:13px;padding:28px 26px;
+    transition:.18s ease;
+  }
+  .card:hover{border-color:#C9D2DE;box-shadow:0 10px 30px rgba(11,37,69,.07);transform:translateY(-2px)}
+  .card .ic{
+    width:42px;height:42px;border-radius:10px;display:grid;place-items:center;
+    margin-bottom:17px;background:rgba(27,77,177,.09);
+  }
+  .card .ic svg{width:21px;height:21px;stroke:var(--blue);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .card h3{font-size:1.07rem;font-weight:650;letter-spacing:-.01em;margin-bottom:8px}
+  .card p{color:var(--body);font-size:.945rem}
+
+  /* ---------- capability rows ---------- */
+  .caps{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+  .cap{display:flex;gap:15px;align-items:flex-start}
+  .cap .num{
+    flex:none;width:31px;height:31px;border-radius:8px;background:var(--navy);color:#fff;
+    display:grid;place-items:center;font-size:13px;font-weight:700;
+  }
+  .cap h4{font-size:1rem;font-weight:650;margin-bottom:5px}
+  .cap p{color:var(--body);font-size:.94rem}
+
+  /* ---------- contact ---------- */
+  .contact{
+    background:linear-gradient(150deg,var(--navy) 0%,var(--navy-deep) 100%);
+    color:#fff;padding:80px 0;
+  }
+  .contact-inner{display:flex;flex-wrap:wrap;gap:34px;align-items:center;justify-content:space-between}
+  .contact h2{font-size:clamp(1.6rem,3vw,2.2rem);letter-spacing:-.025em;font-weight:700;margin-bottom:11px}
+  .contact p{color:rgba(255,255,255,.76);max-width:52ch}
+  .mail-big{
+    display:inline-flex;align-items:center;gap:11px;
+    font-size:clamp(1.05rem,2.1vw,1.42rem);font-weight:600;color:#fff;text-decoration:none;
+    border-bottom:2px solid var(--orange);padding-bottom:5px;
+  }
+  .mail-big:hover{color:var(--orange)}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--navy-deep);color:rgba(255,255,255,.55);padding:30px 0;font-size:13.5px}
+  .foot-row{display:flex;flex-wrap:wrap;gap:12px 26px;align-items:center;justify-content:space-between}
+  .foot-row a{color:rgba(255,255,255,.72);text-decoration:none}
+  .foot-row a:hover{color:#fff}
+
+  @media (max-width:640px){
+    .hero{padding:126px 0 74px}
+    section.band{padding:62px 0}
+    .header-mail{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href="/">
+      <span class="brand-mark">C</span>
+      <span class="brand-name">Cerventa</span>
+    </a>
+    <a class="header-mail" href="mailto:cerventa@cerventa.com">cerventa@cerventa.com</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow"><i></i> Commercial Trade Contractor</span>
+    <h1>Finishing work, delivered <em>on schedule</em>.</h1>
+    <p class="lede">
+      Cerventa performs commercial painting, drywall, wall coverings, interior finishing
+      and construction cleaning — working as a subcontractor to general contractors and
+      directly as a contractor on commercial projects.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="mailto:cerventa@cerventa.com?subject=Project%20inquiry">
+        Request a bid
+      </a>
+      <a class="btn btn-ghost" href="#services">What we do</a>
+    </div>
+    <div class="trades">
+      <span>Painting</span><span>Drywall</span><span>Wall Coverings</span><span>Interior Finishing</span><span>Construction Cleaning</span>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">Services</div>
+      <h2>Trades we self-perform</h2>
+      <p>Scopes are quoted per drawings and specifications. Phasing, night and weekend work accommodated where the schedule requires it.</p>
+    </div>
+    <div class="grid">
+
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 4h10v6H4z"/><path d="M14 7h4a2 2 0 0 1 2 2v3"/><path d="M11 13h2v3h-2z"/><path d="M10 16h4v5h-4z"/></svg></div>
+        <h3>Commercial Painting</h3>
+        <p>Interior and exterior coatings, surface preparation, priming and high-traffic finish systems.</p>
+      </div>
+
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/><path d="M3 9h18"/><path d="M9 9v12"/></svg></div>
+        <h3>Drywall</h3>
+        <p>Framing, hanging, taping and finishing to specified levels, including patch and repair scopes.</p>
+      </div>
+
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 3h16v18H4z"/><path d="M4 8h16"/><path d="M12 8v13"/><path d="M8 3v5"/></svg></div>
+        <h3>Wall Coverings</h3>
+        <p>Vinyl and specialty wall covering installation, substrate preparation and removal.</p>
+      </div>
+
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v10l-8 4-8-4V7z"/><path d="M12 12l8-4"/><path d="M12 12v9"/><path d="M12 12L4 8"/></svg></div>
+        <h3>Interior Finishing</h3>
+        <p>Coordinated finish scopes that close out the interior package ahead of turnover.</p>
+      </div>
+
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M8 3h8l1 5H7z"/><path d="M12 8v6"/><path d="M9 14h6v7H9z"/></svg></div>
+        <h3>Construction Cleaning</h3>
+        <p>Rough, final and post-punch cleaning to hand the space over inspection-ready.</p>
+      </div>
+
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M6 21V9l6-5 6 5v12"/><path d="M10 21v-6h4v6"/></svg></div>
+        <h3>Punch &amp; Turnover</h3>
+        <p>Punch list execution, touch-up and final walk support through project closeout.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="band band-soft">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">How we work</div>
+      <h2>Built for general contractors</h2>
+      <p>Straightforward scope, clear pricing and crews that keep the finish trades off the critical path.</p>
+    </div>
+    <div class="caps">
+
+      <div class="cap">
+        <span class="num">1</span>
+        <div>
+          <h4>Subcontractor or direct</h4>
+          <p>We bid to general contractors as a trade subcontractor, and take contracts directly for commercial owners.</p>
+        </div>
+      </div>
+
+      <div class="cap">
+        <span class="num">2</span>
+        <div>
+          <h4>Bid-ready documentation</h4>
+          <p>Quotes issued on company letterhead with scope inclusions and exclusions stated up front.</p>
+        </div>
+      </div>
+
+      <div class="cap">
+        <span class="num">3</span>
+        <div>
+          <h4>Schedule discipline</h4>
+          <p>Manpower planned against the construction schedule, with phasing and off-hours work where needed.</p>
+        </div>
+      </div>
+
+      <div class="cap">
+        <span class="num">4</span>
+        <div>
+          <h4>Public-sector work</h4>
+          <p>We pursue government and institutional finishing scopes, including opportunities posted on SAM.gov.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap contact-inner">
+    <div>
+      <h2>Send us the drawings.</h2>
+      <p>Invitations to bid, scope questions and schedule requests — email us and we will come back with a quote.</p>
+    </div>
+    <a class="mail-big" href="mailto:cerventa@cerventa.com?subject=Invitation%20to%20bid">
+      cerventa@cerventa.com
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <span>&copy; <span id="yr">2026</span> KATAEV LLC. All rights reserved.</span>
+    <span><a href="mailto:cerventa@cerventa.com">cerventa@cerventa.com</a></span>
+  </div>
+</footer>
+
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+</body>
+</html>
